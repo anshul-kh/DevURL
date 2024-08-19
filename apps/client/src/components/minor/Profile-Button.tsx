@@ -152,9 +152,10 @@ export const SaveButton: React.FC = () => {
     if (token) {
       const { id, username } = decodeToken(token) as UserToken;
 
+      const baseURL = import.meta.env.VITE_API_URL;
       axios
         .post(
-          "/api/profile",
+          `${baseURL}/api/profile`,
           {
             userId: id,
             metadata: data.metadata,

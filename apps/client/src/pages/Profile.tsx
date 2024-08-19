@@ -87,7 +87,8 @@ const Profile: React.FC = () => {
             return;
           }
 
-          const res = await axios.get(`/api/profile/${username}`);
+          const baseURL = import.meta.env.VITE_API_URL;
+          const res = await axios.get(`${baseURL}/api/profile/${username}`);
           if (res.data.success) {
             const { metadata, links, stats } = res.data.data.profile[0];
 

@@ -67,9 +67,11 @@ export const login = async (
         username: data.username,
       },
     });
-
     if (res) {
       const comparision = await compare(data.password, res.password);
+
+      if (!comparision) return { success: "false", err: "no records found" };
+
       if (res.username === data.username && comparision) {
         const payload = {
           id: res.id,
@@ -86,8 +88,7 @@ export const login = async (
       return { success: "false", err: "No Records Found" };
     }
   } catch (e) {
-    console.log(e);
-    return { success: "false", err: "No Records Found" };
+    return { success: "false", err: "no records found" };
   }
 };
 

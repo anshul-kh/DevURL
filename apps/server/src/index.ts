@@ -3,8 +3,15 @@ import { getClient } from "./utils/client";
 import { env } from "hono/adapter";
 import { signup, login, verify } from "./utils/auth";
 import { profile, getProfile } from "./utils/operations";
+import { cors } from "hono/cors";
 
 const app = new Hono();
+app.use(
+  "/*",
+  cors({
+    origin: "*",
+  }),
+);
 
 app.get("/test", (c) => {
   return c.text("Server Up And Running");
@@ -12,6 +19,7 @@ app.get("/test", (c) => {
 
 app.post("/auth/login", async (c) => {
   const data: { username: string; password: string } = await c.req.parseBody();
+  console.log(data);
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
   const res = await login(data, DATABASE_URL);
   console.log(c.json(res));

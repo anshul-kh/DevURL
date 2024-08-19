@@ -6,7 +6,6 @@ export const encrypt = async (pass: string): Promise<string | null> => {
     const hash = await bcrypt.hash(pass, salt);
     return hash;
   } catch (err) {
-    console.error(err);
     return null;
   }
 };
