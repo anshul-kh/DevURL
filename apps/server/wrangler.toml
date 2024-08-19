@@ -1,0 +1,11 @@
+name = "server"
+compatibility_date = "2023-12-01"
+node_compat = true
+main = "src/index.ts"
+
+[dev]
+ip = "0.0.0.0"
+port = 8787
+
+[vars]
+DATABASE_URL="your database url"
