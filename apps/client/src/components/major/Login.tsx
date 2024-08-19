@@ -17,7 +17,7 @@ const Login = () => {
 
     const baseURL = import.meta.env.VITE_API_URL;
     axios
-      .post(`${baseURL}/auth/login`, param, {
+      .post(`${baseURL}auth/login`, param, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

@@ -16,7 +16,7 @@ const Forget = () => {
 
     const baseURL = import.meta.env.VITE_API_URL;
     axios
-      .post(`${baseURL}/api/auth/verify`, param, {
+      .post(`${baseURL}auth/verify`, param, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

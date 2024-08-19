@@ -155,7 +155,7 @@ export const SaveButton: React.FC = () => {
       const baseURL = import.meta.env.VITE_API_URL;
       axios
         .post(
-          `${baseURL}/api/profile`,
+          `${baseURL}profile`,
           {
             userId: id,
             metadata: data.metadata,

@@ -24,7 +24,7 @@ const Signup = () => {
 
     const baseURL = import.meta.env.VITE_API_URL;
     axios
-      .post(`${baseURL}/api/auth/signup`, param, {
+      .post(`${baseURL}auth/signup`, param, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
