@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useCookie } from "../../hooks/cookies";
-import { useEncrypt } from "../../hooks/encrypt";
 
 const Login = () => {
   const [username, setUsername] = useState("");
