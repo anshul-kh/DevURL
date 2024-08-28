@@ -8,4 +8,4 @@ ip = "0.0.0.0"
 port = 8787
 
 [vars]
-DATABASE_URL="Your-DB-URL"
+DATABASE_URL="your postgres db url"

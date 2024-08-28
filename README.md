@@ -1,4 +1,3 @@
-
 # DevURL
 Devurl is a web platform designed to enhance your online presence by generating custom development links. It offers powerful widgets for sharing your GitHub and LeetCode profiles, making it easier for others to connect with you. With Devurl, you can consolidate multiple links into a single, shareable web platform, streamlining your online interactions and showcasing your work in one convenient place.
 
