@@ -9,8 +9,16 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setCookie } = useCookie();
-
+  const [loading, setLoading] = useState(false);
+  
   const handleLogin = () => {
+    setLoading(true);
+    if(username === "" || password === "") {
+      toast.error("Invalid Fields")
+      setLoading(false)
+      return;
+    }
+    
     const param = new URLSearchParams();
     param.append("username", username);
     param.append("password", password);
@@ -23,6 +31,7 @@ const Login = () => {
         },
       })
       .then((res) => {
+        setLoading(false)
         if (res.data.success === true) {
           toast("Login Success");
           const expires = new Date();
@@ -35,7 +44,10 @@ const Login = () => {
           toast(`${res.data.err}`);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error(`error : ${err}`)
+        setLoading(false) 
+      });
   };
 
   return (
@@ -62,9 +74,13 @@ const Login = () => {
         />
         <button
           onClick={handleLogin}
+          disabled={loading}
           className="md:w-2/4 w-3/4 h-14 rounded-xl flex justify-center items-center text-anti-flash_white-700 text-xl bg-black drop-shadow-xl"
         >
-          Login
+          {
+          loading ? "Loggin In..." : "Log In" 
+          }
+        
         </button>
         <div className="text-2xl">------OR------</div>
         <Link

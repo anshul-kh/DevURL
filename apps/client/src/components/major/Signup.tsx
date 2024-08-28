@@ -12,10 +12,17 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setCookie } = useCookie();
-
+  const [loading, setLoading] = useState(false);
+  
   const location = useLocation();
 
   const handleSignup = () => {
+    setLoading(true);
+    if(username === "" || name === "" || password === "" || email === ""){
+      toast.error("Invalid Fields");
+      return;
+    }
+    
     const param = new URLSearchParams();
     param.append("name", name);
     param.append("email", email);
@@ -30,6 +37,7 @@ const Signup = () => {
         },
       })
       .then((res) => {
+        setLoading(false)
         if (res) {
           if (res.data.success === true) {
             const expires = new Date();
@@ -44,7 +52,10 @@ const Signup = () => {
           toast(`Unexpected error`);
         }
       })
-      .catch((e) => toast(`Error : ${e}`));
+      .catch((e) => { 
+        toast(`Error : ${e}`)
+       setLoading(false) 
+      });
   };
 
   useEffect(() => {
@@ -97,9 +108,12 @@ const Signup = () => {
         />
         <button
           onClick={handleSignup}
+          disabled={loading} 
           className="w-3/4 md:w-2/4 ronded-lg h-14 rounded-xl flex justify-center items-center text-anti-flash_white-700 text-xl bg-black drop-shadow-xl"
         >
-          Submit
+         {
+          loading ? "Submitting..." : "Submit"
+         }
         </button>
         <div className="text-2xl">------OR------</div>
         <Link

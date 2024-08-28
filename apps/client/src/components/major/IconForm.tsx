@@ -51,25 +51,21 @@ const IconForm: React.FC = () => {
     e.preventDefault(); // Prevent the default form submission
 
     if (activeIcon === 1) {
-      console.log("btn1");
       setHeaderIconOne({ icon, link });
       setAddHeaderIcon((vl) => ({ ...vl, icon1: false }));
     }
 
     if (activeIcon === 2) {
-      console.log("btn2");
       setHeaderIconTwo({ icon, link });
       setAddHeaderIcon((vl) => ({ ...vl, icon2: false }));
     }
 
     if (activeIcon === 3) {
-      console.log("btn3");
       setHeaderIconThree({ icon, link });
       setAddHeaderIcon((vl) => ({ ...vl, icon3: false }));
     }
 
     if (activeIcon === 4) {
-      console.log("btn4");
       setHeaderIconFour({ icon, link });
       setAddHeaderIcon((vl) => ({ ...vl, icon4: false }));
     }

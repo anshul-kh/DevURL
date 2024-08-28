@@ -36,7 +36,6 @@ export const profile = async (
 
     return { success: "true", msg: "Profile Updated Successfully" };
   } catch (e) {
-    console.log(e);
     return { success: "false", err: "Error While Updating Profile" };
   }
 };
@@ -59,7 +58,6 @@ export const getProfile = async (user: string, url: string) => {
       return { success: "true", data: res };
     }
   } catch (e) {
-    console.log(e);
     return { success: "false", err: "Error While Fetching Profile" };
   }
 };

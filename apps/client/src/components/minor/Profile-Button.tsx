@@ -169,7 +169,6 @@ export const SaveButton: React.FC = () => {
           },
         )
         .then((res) => {
-          console.log(res);
           if (res.data.success) {
             toast(res.data.msg);
             window.location.href = `/user/${username}`;

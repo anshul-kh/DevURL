@@ -19,10 +19,8 @@ app.get("/test", (c) => {
 
 app.post("/auth/login", async (c) => {
   const data: { username: string; password: string } = await c.req.parseBody();
-  console.log(data);
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
   const res = await login(data, DATABASE_URL);
-  console.log(c.json(res));
   return c.json(res);
 });
 
@@ -33,14 +31,13 @@ app.post("/auth/signup", async (c) => {
     username: string;
     password: string;
   } = await c.req.parseBody();
-  console.log(data);
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
   const res = await signup(data, DATABASE_URL);
   return c.json(res);
 });
 
 app.post("/auth/verify", async (c) => {
-  const data: { username: string; email: string; name: string } =
+  const data: { username: string; email: string; name: string; password:string } =
     await c.req.parseBody();
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
   const res = await verify(data, DATABASE_URL);

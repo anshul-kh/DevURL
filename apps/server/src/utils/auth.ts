@@ -50,7 +50,6 @@ export const signup = async (
 
     return { success: true, token: token };
   } catch (e) {
-    console.log(e);
     return { success: "false", err: "Error While Creating User" };
   }
 };
@@ -93,7 +92,7 @@ export const login = async (
 };
 
 export const verify = async (
-  data: { name: string; email: string; username: string },
+  data: { name: string; email: string; username: string; password:string },
   url: string,
 ) => {
   try {
@@ -106,13 +105,29 @@ export const verify = async (
       },
     });
 
-    if (res) {
-      return { success: true, password: res.password };
+    if (res && res.username == data.username && res.email == data.email && res.name == data.name) {
+      
+      let pass = await encrypt(data.password);
+      if (!pass) {
+        return { success: false, err: "Password Encryption Failed" };
+      }
+      
+      const new_pass = await client.users.update({
+        where:{
+          username : data.username
+        },
+        data:{
+          password: pass
+        }
+      })
+  
+      if(new_pass) return {success:true, msg:"Password Updated"}
+        else return {success:false,err:"Password Updation Failed"}
+      
     } else {
       return { success: false, err: "No Records Found" };
     }
   } catch (e) {
-    console.log(e);
     return { success: false, err: "No Records Found" };
   }
 };
