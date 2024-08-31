@@ -37,8 +37,12 @@ app.post("/auth/signup", async (c) => {
 });
 
 app.post("/auth/verify", async (c) => {
-  const data: { username: string; email: string; name: string; password:string } =
-    await c.req.parseBody();
+  const data: {
+    username: string;
+    email: string;
+    name: string;
+    password: string;
+  } = await c.req.parseBody();
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
   const res = await verify(data, DATABASE_URL);
   return c.json(res);

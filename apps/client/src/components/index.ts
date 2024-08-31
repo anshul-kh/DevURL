@@ -39,3 +39,5 @@ export { default as ButtonForm } from "./major/ButtonForm";
 export { default as IconForm } from "./major/IconForm";
 export { default as Add_Widget } from "./major/Add_Widget";
 export { default as ShareProfile } from "./major/Share";
+
+export { default as Loader } from "./minor/Loader";

@@ -11,6 +11,7 @@ import {
   ShareProfileIcon,
   ProfileButton,
   ShareProfile,
+  Loader,
 } from "../components";
 import { Share } from "../assets";
 import { ExternalLink } from "../states/atoms/Links";
@@ -72,9 +73,11 @@ const Profile: React.FC = () => {
   const showShareIcon = useRecoilValue(shareIcon);
   const { cookie } = useCookie();
   const { username } = useParams<{ username: string }>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const parsedData = cookie.profile;
       if (parsedData) {
         setMetadata(parsedData.metadata);
@@ -84,6 +87,7 @@ const Profile: React.FC = () => {
       } else {
         try {
           if (!username) {
+            setLoading(false);
             return;
           }
 
@@ -98,18 +102,24 @@ const Profile: React.FC = () => {
             setExtLinks(links.extLinks);
           } else {
             toast.error(res.data.msg);
+            setLoading(false);
+            return;
           }
         } catch (err) {
-          console.error(err);
+          toast.error(`Error: ${err}`);
+          setLoading(false);
         }
       }
+      setLoading(false);
     };
 
     fetchData();
   }, [cookie.profile, username]);
 
-  return (
-    <div className="min-h-screen h-fit w-full flex flex-col justify-start items-start bg-anti-flash_white ">
+  return loading ? (
+    <Loader />
+  ) : (
+    <div className="min-h-screen  w-full flex flex-col justify-start items-start bg-anti-flash_white ">
       {/* Header */}
       <div className="flex flex-col justify-center items-center w-full gap-2">
         {showShareIcon && <ShareProfile />}
@@ -192,7 +202,7 @@ const Profile: React.FC = () => {
 
       {/* Copyright @DevURL */}
       <div
-        className="bg-black text-white h-7 w-full flex items-center justify-center text-sm "
+        className="bg-black text-white absolute bottom-0 h-7 w-full flex items-center justify-center text-sm "
         onClick={() => (window.location.href = "/")}
       >
         @CopyRight DevURL

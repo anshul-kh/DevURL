@@ -92,7 +92,7 @@ export const login = async (
 };
 
 export const verify = async (
-  data: { name: string; email: string; username: string; password:string },
+  data: { name: string; email: string; username: string; password: string },
   url: string,
 ) => {
   try {
@@ -105,25 +105,28 @@ export const verify = async (
       },
     });
 
-    if (res && res.username == data.username && res.email == data.email && res.name == data.name) {
-      
+    if (
+      res &&
+      res.username == data.username &&
+      res.email == data.email &&
+      res.name == data.name
+    ) {
       let pass = await encrypt(data.password);
       if (!pass) {
         return { success: false, err: "Password Encryption Failed" };
       }
-      
+
       const new_pass = await client.users.update({
-        where:{
-          username : data.username
+        where: {
+          username: data.username,
         },
-        data:{
-          password: pass
-        }
-      })
-  
-      if(new_pass) return {success:true, msg:"Password Updated"}
-        else return {success:false,err:"Password Updation Failed"}
-      
+        data: {
+          password: pass,
+        },
+      });
+
+      if (new_pass) return { success: true, msg: "Password Updated" };
+      else return { success: false, err: "Password Updation Failed" };
     } else {
       return { success: false, err: "No Records Found" };
     }
