@@ -10,7 +10,4 @@ Devurl is a web platform designed to enhance your online presence by generating 
 > [!IMPORTANT]
 > Bugs are beign actively resolved...
 
-- Dashboard Unable To Adapt to previous changes.
-- No Implementation Of Loaders.
 - No option for background image.
-- Invalid link for QR amd Copy Link

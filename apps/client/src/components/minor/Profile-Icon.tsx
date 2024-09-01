@@ -15,7 +15,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = ({ iconUrl, link, bt }) => {
   const setIconForm = useSetRecoilState(showIconForm);
   return location === "/profile/dashboard" ? (
     <div
-      className="drop-shadow-2xl w-fit p-2 rounded-xl bg-white"
+      className="drop-shadow-2xl w-fit p-2 rounded-xl bg-white hover:scale-125 duration-200 transition-all"
       onClick={() => {
         setActiveIcon(bt);
         setIconForm(true);
@@ -37,7 +37,7 @@ export const AddIcon: React.FC<{ id: number }> = ({ id }) => {
   const setIconForm = useSetRecoilState(showIconForm);
   return (
     <div
-      className="drop-shadow-2xl opacity-35 w-fit p-2 rounded-xl bg-white cursor-pointer"
+      className="drop-shadow-2xl opacity-35 w-fit p-2 rounded-xl bg-white cursor-pointer hover:scale-125 duration-200 transition-all"
       onClick={() => {
         setActiveIcon(id);
         setIconForm(true);
@@ -62,7 +62,7 @@ export const ShareProfileIcon: React.FC<ProfileIconProps> = ({ iconUrl }) => {
   };
   return (
     <div
-      className="drop-shadow-2xl cursor-pointer w-fit p-1 md:p-2 rounded-xl bg-black"
+      className="drop-shadow-2xl cursor-pointer w-fit p-1 md:p-2 rounded-xl bg-black hover:scale-125 transition-all duration-200"
       onClick={handleClick}
     >
       <img src={iconUrl} alt="profile_icon" className="w-8 h-8" />
@@ -101,22 +101,24 @@ export const HeaderProfileIcon: React.FC<{
   if (iconExists) {
     return (
       <div
-        className="drop-shadow-2xl w-fit p-2 cursor-pointer rounded-xl bg-white"
+        className="drop-shadow-2xl w-fit p-2 hover:scale-110 transition-all duration-200 cursor-pointer rounded-xl bg-white"
         onClick={handleClick}
       >
         <img src={iconUrl} alt={iconName} className="w-8 h-8" />
       </div>
     );
   } else {
-    // If icon doesn't exist, show the first letter of the icon name
+    // If icon doesn't exist
     const firstLetter = iconName.charAt(0).toUpperCase();
 
     return (
       <div
-        className="drop-shadow-2xl bg-white  w-fit cursor-pointer p-2 rounded-xl flex justify-center items-center text-xl font-bold"
+        className="drop-shadow-2xl bg-white  w-fit min-w-10  cursor-pointer p-2 rounded-xl flex justify-center items-center text-xl font-bold hover:scale-110 transition-all duration-200"
         onClick={handleClick}
       >
-        <div className="icon-placeholder w-full h-full ">{firstLetter}</div>
+        <div className="icon-placeholder w-full h-full text-center">
+          {firstLetter}
+        </div>
       </div>
     );
   }

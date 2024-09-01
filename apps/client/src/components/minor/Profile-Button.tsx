@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   ShowForm,
@@ -36,7 +36,7 @@ const ProfileButton: React.FC<{ text: string; link: string }> = ({
       onClick={() => (window.location.href = link)}
       className="w-5/6 md:w-2/5 cursor-pointer h-fit relative drop-shadow-xl"
     >
-      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center">
+      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center hover:-translate-x-4 hover:-translate-y-4 duration-200 transition-all">
         {text}
       </div>
       <div className="w-full h-16 bg-black rounded-xl"></div>
@@ -59,7 +59,7 @@ export const DashboardProfileButton: React.FC<{ text: string; id: number }> = ({
       className="w-5/6 md:w-2/5 h-fit relative drop-shadow-xl cursor-pointer"
       onClick={handleClick}
     >
-      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center">
+      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center hover:-translate-x-4 hover:-translate-y-4 transition-all duration-200">
         {text}
       </div>
       <div className="w-full h-16 bg-black rounded-xl"></div>
@@ -82,7 +82,7 @@ export const AddDashboardButton: React.FC = () => {
       className="w-5/6 md:w-2/5 h-fit relative drop-shadow-xl opacity-35 cursor-pointer"
       onClick={handleClick}
     >
-      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center">
+      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center hover:-translate-x-4 transition-all duration-200 hover:-translate-y-4">
         Add New
       </div>
       <div className="w-full h-16 bg-black rounded-xl"></div>
@@ -103,7 +103,7 @@ export const ProfileButtonSmall: React.FC<ProfileButtonProps> = ({
     <>
       {location === "/profile/dashboard" ? (
         <div
-          className={`w-80 rounded-xl h-12 flex justify-center items-center text-xl drop-shadow-xl cursor-pointer ${theme == "dark" ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`w-80 rounded-xl h-12 flex justify-center items-center text-xl drop-shadow-xl cursor-pointer hover:scale-110 transition-all duration-200 ${theme == "dark" ? "bg-black text-white" : "bg-white text-black"}`}
           onClick={() => {
             setActiveBtn(bt);
             setShowForm((vl) => !vl);
@@ -114,7 +114,7 @@ export const ProfileButtonSmall: React.FC<ProfileButtonProps> = ({
       ) : (
         <div
           onClick={() => (window.location.href = link)}
-          className={`cursor-pointer w-80 rounded-xl h-12 flex justify-center items-center  text-xl drop-shadow-xl ${theme == "dark" ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`cursor-pointer w-80 rounded-xl h-12 flex justify-center items-center  text-xl drop-shadow-xl hover:scale-110 transition-all duration-200 ${theme == "dark" ? "bg-black text-white" : "bg-white text-black"}`}
         >
           {text}
         </div>
@@ -128,7 +128,7 @@ export const AddProfileButtonSmall: React.FC<{ bt: number }> = ({ bt }) => {
   const setShowForm = useSetRecoilState(ShowForm);
   return (
     <div
-      className={`w-80 rounded-xl h-12 flex justify-center items-center text-lg font-bold bg-opacity-35 drop-shadow-xl bg-black text-white cursor-pointer`}
+      className={`w-80 rounded-xl h-12 flex justify-center items-center text-lg font-bold bg-opacity-35 drop-shadow-xl bg-black text-white cursor-pointer hover:scale-110 transition-all duration-200`}
       onClick={() => {
         setActiveBtn(bt);
         setShowForm((vl) => !vl);
@@ -144,8 +144,10 @@ export default ProfileButton;
 export const SaveButton: React.FC = () => {
   const data = useRecoilValue(profileData);
   const { cookie, setCookie } = useCookie();
+  const [loading, setLoading] = useState(false);
 
   const handleSave = () => {
+    setLoading(true);
     setCookie("profile", JSON.stringify(data));
 
     const token = cookie.token;
@@ -169,6 +171,7 @@ export const SaveButton: React.FC = () => {
           },
         )
         .then((res) => {
+          setLoading(false);
           if (res.data.success) {
             toast(res.data.msg);
             window.location.href = `/user/${username}`;
@@ -178,16 +181,20 @@ export const SaveButton: React.FC = () => {
         })
         .catch(() => {
           toast("Something Went Worng");
+          setLoading(false);
         });
+    } else {
+      toast.error("Token Not Found");
+      setLoading(false);
     }
   };
 
   return (
     <div
-      className={` rounded-xl w-5/6 md:w-2/5 h-16 flex justify-center items-center text-xl drop-shadow-xl bg-black text-white cursor-pointer`}
+      className={` rounded-xl w-5/6 md:w-2/5 h-16 flex justify-center items-center text-xl drop-shadow-xl bg-black text-white cursor-pointer transition-all duration-200 hover:scale-110`}
       onClick={handleSave}
     >
-      Save Changes
+      {loading ? "Saving Changes..." : "Save Changes"}
     </div>
   );
 };

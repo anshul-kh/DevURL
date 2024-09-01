@@ -32,7 +32,9 @@ export const Stats_Card: React.FC<CardProps> = ({ url, id }) => {
     <div
       onMouseEnter={() => setShowDel(true)}
       onMouseLeave={() => setShowDel(false)}
-      className={"flex justify-center items-center"}
+      className={
+        "flex justify-center items-center transition-all duration-200 hover:scale-110"
+      }
     >
       <img
         src={url}
@@ -56,7 +58,7 @@ export const Empty_Stats: React.FC<{ id: number }> = ({ id }) => {
   const setShowPanel = useSetRecoilState(showWidgetPanel);
   return (
     <div
-      className="w-80 rounded-xl opacity-35 h-40 cursor-pointer flex justify-center items-center bg-white text-black"
+      className="w-80 rounded-xl opacity-35 h-40 cursor-pointer flex justify-center items-center hover:scale-110 transition-all duration-200 bg-white text-black"
       onClick={() => {
         setCurrentCard(id);
         setShowPanel(true);
@@ -78,7 +80,7 @@ export const HeaderStats: React.FC<{ url: string }> = ({ url }) => {
   return (
     <div
       className={
-        "flex cursor-pointer hover:scale-110 justify-center items-center"
+        "flex cursor-pointer transition-all duration-200  hover:scale-110 justify-center items-center"
       }
     >
       <img src={url} alt="stats" className={`drop-shadow-2xl w-80 `} />

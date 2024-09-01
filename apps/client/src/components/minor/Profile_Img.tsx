@@ -23,7 +23,7 @@ export default Profile_Img;
 
 export const HeaderProfileImg: React.FC<{ imgUrl: string }> = ({ imgUrl }) => {
   return (
-    <div className="drop-shadow-2xl cursor-none object-fill w-56 h-56 rounded-3xl overflow-hidden">
+    <div className="drop-shadow-2xl cursor-none object-fill w-56 h-56 rounded-3xl overflow-hidden hover:scale-110 duration-200 transition-all">
       <img src={imgUrl} alt="Avatar" className="" />
     </div>
   );
