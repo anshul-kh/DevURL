@@ -66,13 +66,14 @@ const Dashboard: React.FC = () => {
         const baseURL = import.meta.env.VITE_API_URL;
         const res = await axios.get(`${baseURL}profile/${user}`);
 
-        if (!res) {
+        if (res === undefined || res === null) {
           toast.error(`Unable To Sync Data`);
           return null;
         }
 
         if (res.data.success) {
-          return res.data.data.profile[0];
+          if (res.data.data.profile[0]) return res.data.data.profile[0];
+          else return null;
         } else {
           toast.error(res.data.msg);
           return null;
@@ -102,7 +103,8 @@ const Dashboard: React.FC = () => {
       }
 
       if (data === null) {
-        toast.error("Synced Data Is Null");
+        toast.error("Synced Data Is Null OR Profile is New");
+        toast("Update Your Details");
         setLoading(false);
         return;
       }

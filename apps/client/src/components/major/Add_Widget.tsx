@@ -12,8 +12,8 @@ import {
 import { toast } from "react-toastify";
 
 const githubList = [
-  "https://devurl-github-stats-i1s6.vercel.app//api?username=jacoblin&show_icons=true&theme=light&title_color=000&border_radius=10&icon_color=000",
-  "https://devurl-github-stats-i1s6.vercel.app/api?username=jacoblin&show_icons=true&theme=dark&title_color=fff&border_radius=10&icon_color=fff",
+  "https://devurlgithubv2.vercel.app/api?username=jacoblin&show_icons=true&theme=light&title_color=000&border_radius=10&icon_color=000",
+  "https://devurlgithubv2.vercel.app/api?username=jacoblin&show_icons=true&theme=dark&title_color=fff&border_radius=10&icon_color=fff",
 ];
 
 const leetcodeList = [
@@ -40,7 +40,7 @@ const Add_Widget: React.FC = () => {
       const theme = index
         ? "dark&title_color=fff&icon_color=fff"
         : "light&title_color=000&icon_color=000";
-      const cardUrl = `https://devurl-github-stats-i1s6.vercel.app//api?username=${github}&show_icons=true&theme=${theme}&border_radius=10`;
+      const cardUrl = `https://devurlgithubv2.vercel.app/api?username=${github}&show_icons=true&theme=${theme}&border_radius=10`;
 
       if (activeWidget == 1) {
         setCard1(cardUrl);
