@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="h-48 w-screen flex justify-evenly items-center flex-col bg-black text-anti-flash_white-700 rounded text-xl">
+    <div className="h-48 w-full relative bottom-0 flex justify-evenly items-center flex-col bg-black text-anti-flash_white-700 mt-10 rounded text-xl">
       <div className="flex justify-center items-center md:gap-24 gap-7">
         <Link to={"/"} className="flex justify-center items-center gap-2">
           <HomeIcon />

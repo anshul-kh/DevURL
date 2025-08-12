@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 import axios from "axios";
 import {
@@ -12,12 +12,11 @@ import {
   ProfileButton,
   ShareProfile,
   Loader,
+  NavBar,
 } from "../components";
 import { Share } from "../assets";
 import { ExternalLink } from "../states/atoms/Links";
-import { useRecoilValue } from "recoil";
-import { shareIcon } from "../states";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useCookie } from "../hooks/cookies";
 
 // Types of Profile States;
@@ -70,10 +69,21 @@ const Profile: React.FC = () => {
   const [links, setLinks] = useState<LinksProps | null>(null);
   const [stats, setStats] = useState<Record<string, any>>({});
   const [extlinks, setExtLinks] = useState<ExternalLink[]>([]);
-  const showShareIcon = useRecoilValue(shareIcon);
+  const [showShareIcon, setShowShareIcon] = useState(false);
   const { cookie } = useCookie();
   const { username } = useParams<{ username: string }>();
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  const querySearch = new URLSearchParams(location.search);
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (querySearch.get("share") === "true" && firstRender.current) {
+      setShowShareIcon(true);
+      firstRender.current = false;
+    }
+  }, [querySearch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +104,7 @@ const Profile: React.FC = () => {
           const baseURL = import.meta.env.VITE_API_URL;
           const res = await axios.get(`${baseURL}profile/${username}`);
           if (res.data.success) {
-            const { metadata, links, stats } = res.data.data.profile[0];
+            const { metadata, links, stats } = res?.data?.data?.profile[0];
 
             setMetadata(metadata);
             setLinks(links);
@@ -107,7 +117,9 @@ const Profile: React.FC = () => {
           }
         } catch (err) {
           toast.error(`Error: ${err}`);
+        } finally {
           setLoading(false);
+
         }
       }
       setLoading(false);
@@ -121,10 +133,11 @@ const Profile: React.FC = () => {
   ) : (
     <div className="min-h-screen  w-full flex flex-col justify-start items-start bg-anti-flash_white ">
       {/* Header */}
+      {cookie.token && <NavBar />}
       <div className="flex flex-col justify-center items-center w-full gap-2">
-        {showShareIcon && <ShareProfile />}
+        {showShareIcon && <ShareProfile onClose={() => setShowShareIcon(false)} />}
         <div className="px-10 md:px-20 py-2 flex w-full md:h-fit h-full justify-start items-start flex-col gap-5">
-          <ShareProfileIcon iconUrl={Share} bt={0} />
+          <ShareProfileIcon iconUrl={Share} bt={0} onClick={() => setShowShareIcon(true)} />
 
           <div className="flex justify-center items-center w-full h-full gap-10 flex-col md:flex-row">
             {metadata && (
@@ -202,8 +215,7 @@ const Profile: React.FC = () => {
 
       {/* Copyright @DevURL */}
       <div
-        className="bg-black text-white absolute bottom-0 h-7 w-full flex items-center justify-center text-sm "
-        onClick={() => (window.location.href = "/")}
+        className="bg-black text-white relative bottom-0 h-7 w-full flex items-center justify-center text-sm "
       >
         @CopyRight DevURL
       </div>

@@ -9,7 +9,7 @@ import {
   Card2,
   AddCard,
 } from "../../states";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const githubList = [
   "https://devurlgithubv2.vercel.app/api?username=jacoblin&show_icons=true&theme=light&title_color=000&border_radius=10&icon_color=000",

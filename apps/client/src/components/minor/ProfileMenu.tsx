@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { decodeToken } from "react-jwt";
 import { gsap } from "gsap";
 import { useCookie } from "../../hooks/cookies";
+import { getProfileButtonStyle } from "../../utils";
 
 type userState = {
   id: number;
@@ -61,11 +62,11 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ setPopup }) => {
   return (
     <div
       ref={menuRef}
-      className="hidden md:absolute top-20 right-28 bg-white w-80 rounded-3xl p-10 z-50 md:flex justify-center items-center flex-col"
+      className="hidden md:absolute top-20 right-28 bg-white w-80 rounded-3xl p-8 z-50 md:flex justify-center items-center flex-col min-h-fit"
       onMouseLeave={closePopup}
     >
       {user && (
-        <div className="flex flex-col justify-center items-center gap-4 w-full overflow-hidden">
+        <div className="flex flex-col justify-center items-center gap-4 w-full">
           <div className="hidden md:flex justify-center items-center rounded-full w-16 h-16 bg-black text-anti-flash_white-700 text-xl font-bold">
             {user?.username.charAt(0).toUpperCase()}
           </div>
@@ -81,7 +82,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ setPopup }) => {
               <Link
                 to={`/user/${user.username}`}
                 onClick={closePopup}
-                className="border-b-white bg-black rounded-md text-white w-full flex items-center justify-center h-10"
+                className={`${getProfileButtonStyle()}`}
               >
                 Profile
               </Link>
@@ -93,22 +94,22 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ setPopup }) => {
                 <Link
                   to={"/profile/dashboard"}
                   onClick={closePopup}
-                  className="border-b-white bg-black rounded-md text-white w-full flex items-center justify-center h-10"
+                  className={`${getProfileButtonStyle()}`}
                 >
                   Dashboard
                 </Link>
               )}
 
             <Link
-              to={`/user/${user.username}`}
+              to={`/user/${user.username}?share=true`}
               onClick={closePopup}
-              className="border-b-white bg-black rounded-md w-full text-white text-center flex items-center justify-center h-10"
+              className={`${getProfileButtonStyle()}`}
             >
               Share
             </Link>
             <button
               onClick={handleLogout}
-              className="border-b-white bg-black rounded-md text-white w-full text-center flex items-center justify-center h-10"
+              className={`${getProfileButtonStyle(true)}`}
             >
               Logout
             </button>

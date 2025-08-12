@@ -23,7 +23,7 @@ export default Profile_Img;
 
 export const HeaderProfileImg: React.FC<{ imgUrl: string }> = ({ imgUrl }) => {
   return (
-    <div className="drop-shadow-2xl cursor-none object-fill w-56 h-56 rounded-3xl overflow-hidden hover:scale-110 duration-200 transition-all">
+    <div className="drop-shadow-2xl cursor-not-allowed object-fill w-56 h-56 rounded-3xl overflow-hidden hover:scale-105 duration-200 transition-all">
       <img src={imgUrl} alt="Avatar" className="" />
     </div>
   );
@@ -44,10 +44,10 @@ export const EditProfileImg: React.FC<Edit_ImgProps> = ({ url }) => {
 
   return (
     <div
-      className="drop-shadow-2xl object-center w-52 h-52 rounded-3xl overflow-hidden"
+      className="drop-shadow-2xl object-center w-52 h-52 rounded-3xl overflow-hidden z-50 cursor-pointer"
       onClick={handleImageChange}
     >
-      <img src={url} alt="Avatar" className="" />
+      <img src={url} alt="Avatar" className="cursor-pointer" />
     </div>
   );
 };

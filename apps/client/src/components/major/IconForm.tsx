@@ -137,14 +137,14 @@ const IconForm: React.FC = () => {
         <div className="w-full h-10 flex justify-center items-center ">
           <input
             type="submit"
-            className="w-full bg-black text-white h-full rounded-xl"
+            className="w-full bg-black text-white h-full rounded-xl focus:ring-2 hover:ring-2 ring-offset-1 ring-blue-700"
           />
         </div>
 
         <div className="w-full h-10 flex justify-center items-center ">
           <button
             onClick={handleDelete}
-            className="w-full bg-black text-white h-full rounded-xl"
+            className="w-full bg-black text-white h-full rounded-xl focus:ring-2 hover:ring-2 ring-offset-1 ring-blue-700"
           >
             {" "}
             Delete{" "}

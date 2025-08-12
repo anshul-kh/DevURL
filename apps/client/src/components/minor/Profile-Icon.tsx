@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { ActiveIcon, shareIcon, showIconForm } from "../../states";
+import { ActiveIcon, showIconForm } from "../../states";
 import { Link } from "react-router-dom";
 
 interface ProfileIconProps {
@@ -54,12 +54,11 @@ export const AddIcon: React.FC<{ id: number }> = ({ id }) => {
   );
 };
 
-export const ShareProfileIcon: React.FC<ProfileIconProps> = ({ iconUrl }) => {
-  const setShareIcon = useSetRecoilState(shareIcon);
+interface ShareProfileIconProps extends ProfileIconProps {
+  onClick: () => void;
+} 
 
-  const handleClick = () => {
-    setShareIcon(true);
-  };
+export const ShareProfileIcon: React.FC<ShareProfileIconProps> = ({ iconUrl, onClick:handleClick }) => {
   return (
     <div
       className="drop-shadow-2xl cursor-pointer w-fit p-1 md:p-2 rounded-xl bg-black hover:scale-125 transition-all duration-200"

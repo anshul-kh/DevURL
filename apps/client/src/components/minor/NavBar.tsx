@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Close } from "../../assets";
 import { useLocation } from "react-router-dom";
 import { decodeToken } from "react-jwt";
@@ -24,6 +24,7 @@ const NavBar = () => {
   const location = useLocation();
   const { cookie, rmCookie } = useCookie();
   const navRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleClick = (route: string) => {
     if (location.pathname === route) {
@@ -45,28 +46,42 @@ const NavBar = () => {
         {
           y: 0,
           opacity: 1,
-          duration: 2,
-          ease: "elastic.inOut",
-          zIndex: 1000,
+          duration: 1,
+          ease: "elastic.out",
+          zIndex: 40,
         },
       );
     }
   }, []);
 
+  const getLinkStyle = (path: string) => {
+    const currentPath = location.pathname;
+    return `${(currentPath === path
+      ? "text-black font-bold underline "
+      : "text-gray-400 hover:text-black hover:underline transition-colors duration-200")} cursor-pointer decoration-2 underline-offset-4`;
+  }
+
+  const getMenuLinkStyle = (path: string) => {
+    const currentPath = location.pathname;
+    return `${(currentPath === path
+      ? "text-black font-bold underline"
+      : "text-gray-400 hover:text-black hover:underline transition-colors duration-200")} border-b-2 w-full p-2 flex justify-center items-center`;
+  }
+
   return (
     <div
       ref={navRef}
-      className="relative w-full top-0 flex flex-col md:flex-row justify-center items-center md:px-0 z-50 px-5 py-5"
+      className="relative w-full top-0 flex flex-col md:flex-row justify-center items-center md:px-0 z-40 px-5 py-5"
     >
-      <div className="flex justify-between items-center w-full md:w-1/2 h-14 rounded-full bg-anti-flash_white-700 px-7">
+      <div className="flex justify-between items-center w-full md:w-1/2 h-14 rounded-full bg-anti-flash_white-700 border border-cadet_gray-800 px-7">
         <div className="flex flex-row justify-center items-center gap-7">
-          <Link to={"/"} className="text-black font-bold font-sans">
+          <Link to={"/"} className="text-black font-bold">
             DevURL
           </Link>
 
-          <div className="hidden md:flex flex-row justify-center items-center gap-5 font-sans font-semibold">
-            <Link to={"/feature"}>Features</Link>
-            <Link to={"/about"}>About</Link>
+          <div className="hidden md:flex flex-row justify-center items-center gap-5  font-semibold">
+            <Link to={"/feature"} className={getLinkStyle("/feature")}>Features</Link>
+            <Link to={"/about"} className={getLinkStyle("/about")}>About</Link>
           </div>
         </div>
         {/* If User Not Logged In  */}
@@ -89,7 +104,7 @@ const NavBar = () => {
         {/* User is Logged In */}
         {user && (
           <div
-            className="hidden md:flex justify-center items-center rounded-full w-12 h-5/6 bg-black text-anti-flash_white-700 text-xl font-bold"
+            className="hidden md:flex justify-center items-center rounded-full w-12 h-5/6 cursor-pointer bg-black text-anti-flash_white-700 text-xl font-bold"
             onClick={() => setPopup((val) => !val)}
             onMouseEnter={() => setPopup((val) => !val)}
           >
@@ -111,14 +126,14 @@ const NavBar = () => {
 
       {/* Drawer for mobile devices */}
       {open && (
-        <div className="w-11/12 h-[75vh] flex absolute md:hidden flex-col justify-start py-20 items-center z-10 gap-10 rounded-xl bg-anti-flash_white-700 top-28">
+        <div className="w-11/12 min-h-fit h-[75vh] flex absolute md:hidden flex-col justify-start py-10 items-center z-10 gap-10 rounded-xl bg-anti-flash_white-700 top-28">
           <h1 className="text-4xl font-semibold text-black border-b-2 w-full flex justify-center items-center">
             Explore Routes
           </h1>
 
           <div className="text-black text-3xl z-96 flex flex-col justify-center items-center w-full mt-5 font-semibold">
             <Link
-              className="border-b-2 border-t-2 w-full p-2 flex justify-center items-center"
+              className={`${getMenuLinkStyle("/")} border-t-2`}
               to={"/"}
               onClick={() => handleClick("/")}
             >
@@ -126,7 +141,7 @@ const NavBar = () => {
             </Link>
 
             <Link
-              className="border-b-2 w-full p-2 flex justify-center items-center"
+              className={getMenuLinkStyle("/feature")}
               to={"/feature"}
               onClick={() => handleClick("/feature")}
             >
@@ -134,7 +149,7 @@ const NavBar = () => {
             </Link>
 
             <Link
-              className="border-b-2 w-full p-2 flex justify-center items-center"
+              className={getMenuLinkStyle("/about")}
               to={"/about"}
               onClick={() => handleClick("/about")}
             >
@@ -164,33 +179,34 @@ const NavBar = () => {
             {user && (
               <>
                 <Link
-                  className="border-b-2 w-full p-2 flex justify-center items-center"
+                  className={getMenuLinkStyle(`/user/${user.username}`)}
                   to={`/user/${user.username}`}
                 >
                   Profile
                 </Link>
                 <Link
-                  className="border-b-2 w-full p-2 flex justify-center items-center"
+                  className={getMenuLinkStyle("/profile/dashboard")}
                   to={"/profile/dashboard"}
                 >
                   Dashboard
                 </Link>
                 <Link
-                  className="border-b-2 w-full p-2 flex justify-center items-center"
-                  to={`/user/${user.username}`}
+                  className={getMenuLinkStyle(`/user/${user.username}`)}
+                  to={`/user/${user.username}?share=true`}
                 >
                   Share
                 </Link>
-                <Link
-                  className="border-b-2 w-full p-2 flex justify-center items-center"
-                  to={"/"}
+                <button
+                  className="border-b-2 w-full p-2 flex justify-center items-center text-red-500"
                   onClick={() => {
                     rmCookie("token");
+                    rmCookie("profile");
                     setUser(null);
+                    navigate("/")
                   }}
                 >
                   Logout
-                </Link>
+                </button>
               </>
             )}
           </div>

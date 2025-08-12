@@ -1,7 +1,8 @@
-import { NavBar, Feature } from "../components";
+import { Feature, Footer } from "../components";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useEffect } from "react";
+import DefaultLayout from "../layout/default";
 
 const Features = () => {
   const textRef = React.useRef(null);
@@ -44,25 +45,18 @@ const Features = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-black flex flex-col justify-start items-center gap-10">
-      <NavBar />
-
+    <DefaultLayout className="h-full w-full  overflow-x-hidden no-scrollbar bg-flash_white flex flex-col justify-start items-center gap-10">
       <div
         ref={textRef}
-        className="md:text-7xl text-3xl text-center border-b border-[#fff] text-[#fff] font-bold"
+        className="md:text-7xl text-3xl text-center font-bold text-decoration-none no-underline"
       >
         What's For Dev
       </div>
 
       <Feature />
 
-      <div
-        ref={copyRef}
-        className="text-white flex w-full h-16 justify-center items-center text-xl"
-      >
-        @Copyright DevURL
-      </div>
-    </div>
+      <Footer/>
+    </DefaultLayout>
   );
 };
 

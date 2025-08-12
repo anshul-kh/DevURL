@@ -41,3 +41,4 @@ export { default as Add_Widget } from "./major/Add_Widget";
 export { default as ShareProfile } from "./major/Share";
 
 export { default as Loader } from "./minor/Loader";
+export {default as AllRoutes} from "./minor/AllRoute";

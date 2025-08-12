@@ -14,7 +14,7 @@ export const profile = async (
     });
 
     if (!res || res.id !== data.userId) {
-      return { success: "false", err: "User does not exist" };
+      return { success: false, err: "User does not exist" };
     }
 
     const profile = await client.profile.upsert({
@@ -36,7 +36,7 @@ export const profile = async (
 
     return { success: "true", msg: "Profile Updated Successfully" };
   } catch (e) {
-    return { success: "false", err: "Error While Updating Profile" };
+    return { success: false, err: "Error While Updating Profile" };
   }
 };
 
@@ -53,11 +53,11 @@ export const getProfile = async (user: string, url: string) => {
     });
 
     if (!res) {
-      return { success: "false", err: "User does not exist" };
+      return { success: false, err: "User does not exist" };
     } else {
       return { success: "true", data: res };
     }
   } catch (e) {
-    return { success: "false", err: "Error While Fetching Profile" };
+    return { success: false, err: "Error While Fetching Profile" };
   }
 };

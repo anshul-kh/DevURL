@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Modal } from "..";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 
@@ -21,6 +21,15 @@ const ButtonForm: React.FC = () => {
   const [HeaderBtnTwo, setHeaderBtnTwo] = useRecoilState(headerBtnTwo);
   const setAddHeaderBtn = useSetRecoilState(addHeaderButton);
   const setModal = useSetRecoilState(ShowForm);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFocus = () => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }
+
+  useEffect(handleFocus,[])
 
   // Handle Delete The Option
   const handleDelete = () => {
@@ -67,7 +76,7 @@ const ButtonForm: React.FC = () => {
   }, [activeBtn, HeaderBtnOne, HeaderBtnTwo]);
 
   return (
-    <Modal resize="w-5/6 md:w-1/4 min-h-2/4 h-fit">
+    <Modal resize="w-5/6 md:w-1/4 min-h-2/4 h-fit" onClose={() => setModal(false)} onOutSideClick={handleFocus}>
       <button className="absolute w-3 h-3" onClick={() => setModal(false)}>
         {" "}
         <img src={Close} alt="close" />
@@ -81,6 +90,7 @@ const ButtonForm: React.FC = () => {
           Enter Button Title:
           <input
             type="text"
+            ref={firstInputRef}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="eg: Github"
@@ -104,31 +114,33 @@ const ButtonForm: React.FC = () => {
         <label className="font-medium">
           Select Theme:
           <div className="flex gap-5 px-5">
-            <div
+            <button
+              type="button"
               onClick={() => setTheme("dark")}
               className={`${theme == "dark" ? "bg-black text-white" : "bg-anti-flash_white"} w-20 text-center rounded `}
             >
               Dark
-            </div>
-            <div
+            </button>
+            <button
+              type="button"
               onClick={() => setTheme("light")}
               className={`${theme == "light" ? "bg-black text-white" : "bg-anti-flash_white"} w-20 text-center rounded`}
             >
               Light
-            </div>
+            </button>
           </div>
         </label>
         <div className="w-full h-10 flex justify-center items-center ">
           <input
             type="submit"
-            className="w-full bg-black text-white h-full rounded-xl"
+            className="w-full bg-black text-white h-full rounded-xl focus:ring-2 hover:ring-2 ring-offset-2 ring-blue-700"
           />
         </div>
 
         <div className="w-full h-10 flex justify-center items-center ">
           <button
             onClick={handleDelete}
-            className="w-full bg-black text-white h-full rounded-xl"
+            className="w-full bg-black text-white h-full rounded-xl focus:ring-2 hover:ring-2 ring-offset-2 ring-blue-700"
           >
             {" "}
             Delete{" "}

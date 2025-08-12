@@ -10,7 +10,7 @@ import {
 } from "../../states";
 import axios from "axios";
 import { decodeToken } from "react-jwt";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useCookie } from "../../hooks/cookies";
 
 interface ProfileButtonProps {
@@ -79,11 +79,11 @@ export const AddDashboardButton: React.FC = () => {
 
   return (
     <div
-      className="w-5/6 md:w-2/5 h-fit relative drop-shadow-xl opacity-35 cursor-pointer"
+      className="w-5/6 md:w-2/5 h-fit relative drop-shadow-xl cursor-pointer"
       onClick={handleClick}
     >
-      <div className="w-full h-16 font-bold text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-white rounded-xl flex justify-center items-center hover:-translate-x-4 transition-all duration-200 hover:-translate-y-4">
-        Add New
+      <div className="w-full h-16  font-bold text-opacity-50 text-xl absolute z-10 -translate-x-1 -translate-y-1 text-black bg-anti-flash_white-700 rounded-xl flex justify-center items-center hover:-translate-x-4 transition-all duration-200 hover:-translate-y-4">
+        Add New Link
       </div>
       <div className="w-full h-16 bg-black rounded-xl"></div>
     </div>
@@ -128,13 +128,13 @@ export const AddProfileButtonSmall: React.FC<{ bt: number }> = ({ bt }) => {
   const setShowForm = useSetRecoilState(ShowForm);
   return (
     <div
-      className={`w-80 rounded-xl h-12 flex justify-center items-center text-lg font-bold bg-opacity-35 drop-shadow-xl bg-black text-white cursor-pointer hover:scale-110 transition-all duration-200`}
+      className={`w-80 rounded-xl h-12 flex focus:ring-2 hover:ring-2 ring-offset-1 ring-blue-700 justify-center items-center text-lg font-bold drop-shadow-xl bg-black text-white cursor-pointer hover:scale-110 transition-all duration-200`}
       onClick={() => {
         setActiveBtn(bt);
         setShowForm((vl) => !vl);
       }}
     >
-      Add Button
+      Add Link
     </div>
   );
 };
@@ -181,8 +181,7 @@ export const SaveButton: React.FC = () => {
         })
         .catch(() => {
           toast("Something Went Worng");
-          setLoading(false);
-        });
+        }).finally(() => setLoading(false));
     } else {
       toast.error("Token Not Found");
       setLoading(false);

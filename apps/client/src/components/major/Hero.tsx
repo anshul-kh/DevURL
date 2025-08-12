@@ -3,6 +3,8 @@ import { Hero_1, Hero_2 } from "../../assets";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useCookie } from "../../hooks/cookies";
+import { useJwt } from "react-jwt";
 const Hero: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const heroRef = useRef<HTMLDivElement>(null);
@@ -12,6 +14,16 @@ const Hero: React.FC = () => {
   const textMinRef = useRef<HTMLHeadingElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLAnchorElement>(null);
+  const { cookie } = useCookie();
+  const { decodedToken } = useJwt<{username:string}>(cookie.token);
+
+
+  useEffect(()=>{
+      if (cookie.token && inputRef?.current) {
+        inputRef.current.value = decodedToken?.username || "";
+      };
+  },[cookie])
+
 
   useEffect(() => {
     if (
@@ -60,7 +72,7 @@ const Hero: React.FC = () => {
       { opacity: 1, scale: 1, y: 0 },
       {
         opacity: 0,
-        duration: 2,
+        duration: 2.2,
         ease: "power3.inOut",
         scale: 0.7,
         y: -100,
@@ -95,24 +107,37 @@ const Hero: React.FC = () => {
           Create Your Developer Profile In Seconds
         </h1>
 
-        <div className="flex justify-start items-center w-full px-7">
+        <div className="flex justify-start items-center w-full px-7 gap-2">
           <input
             ref={inputRef}
             type="text"
-            className="w-9/12 outline-none h-14 rounded-xl px-7"
-            placeholder="Select Your Url Here"
+            disabled={cookie.token ? true : false}
+            className="w-9/12 outline-none h-14 rounded-xl px-7 border border-cadet_gray-800 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:font-semibold disabled:text-gray-500"
+            placeholder="Select Your Username"
             onChange={(e) => setUsername(e.target.value)}
           />
-          <Link
-            ref={buttonRef}
-            className="w-2/12 h-14 rounded flex justify-center items-center text-anti-flash_white-700 bg-black"
-            to={`/auth/signup?username=${username}`}
-          >
-            SUBMIT
-          </Link>
+          {
+            cookie.token ? (
+              <Link
+                ref={buttonRef}
+                className="min-w-fit px-4 h-14 rounded-xl hover:ring-2 ring-blue-500 flex justify-center items-center text-anti-flash_white-700 bg-black"
+                to={`/profile/dashboard`}
+              >
+                View Profile
+              </Link>
+            ) : (
+              <Link
+                ref={buttonRef}
+                className="min-w-fit px-4 h-14 rounded-xl hover:ring-2 ring-blue-500 flex justify-center items-center text-anti-flash_white-700 bg-black"
+                to={`/auth/signup?username=${username}`}
+              >
+                SUBMIT
+              </Link>
+            )
+          }
         </div>
 
-        <h1 ref={textMinRef}>It's free and easy to use</h1>
+        <h1 ref={textMinRef} className="text-cadet_gray-300 text-md font-semibold">It's free and easy to use</h1>
       </div>
 
       <img

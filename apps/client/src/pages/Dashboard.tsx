@@ -26,10 +26,11 @@ import {
   external_links,
 } from "../states";
 import { useSetRecoilState } from "recoil";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useCookie } from "../hooks/cookies";
 import axios from "axios";
 import { decodeToken } from "react-jwt";
+import DefaultLayout from "../layout/default";
 
 type userState = {
   id: number;
@@ -40,6 +41,7 @@ type userState = {
 
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const form = useRecoilValue(showLinkForm);
   const setProfileImg = useSetRecoilState(ProfileImg);
   const setProfileText = useSetRecoilState(ProfileText);
@@ -63,6 +65,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetch_data = async (user: string) => {
       try {
+        setFetching(true);
         const baseURL = import.meta.env.VITE_API_URL;
         const res = await axios.get(`${baseURL}profile/${user}`);
 
@@ -71,8 +74,8 @@ const Dashboard: React.FC = () => {
           return null;
         }
 
-        if (res.data.success) {
-          if (res.data.data.profile[0]) return res.data.data.profile[0];
+        if (res?.data?.success) {
+          if (res?.data?.data?.profile[0]) return res?.data?.data?.profile[0] ?? [];
           else return null;
         } else {
           toast.error(res.data.msg);
@@ -81,6 +84,8 @@ const Dashboard: React.FC = () => {
       } catch (err) {
         toast.error(`err: ${err}`);
         return null;
+      } finally {
+        setFetching(false);
       }
     };
 
@@ -103,8 +108,7 @@ const Dashboard: React.FC = () => {
       }
 
       if (data === null) {
-        toast.error("Synced Data Is Null OR Profile is New");
-        toast("Update Your Details");
+        toast("Please Update Your Details");
         setLoading(false);
         return;
       }
@@ -159,10 +163,10 @@ const Dashboard: React.FC = () => {
     init_dashbaord();
   }, []);
 
-  return loading ? (
+  return (loading || fetching) ? (
     <Loader />
   ) : (
-    <div className="min-h-screen h-fit w-full flex flex-col justify-start items-start bg-anti-flash_white py-2 ">
+    <DefaultLayout className="min-h-screen h-fit w-full flex flex-col justify-start items-start bg-anti-flash_white py-2 no-scrollbar">
       {form && <LinkForm />}
 
       {/* Header */}
@@ -176,7 +180,7 @@ const Dashboard: React.FC = () => {
       <div className="flex justify-center items-center w-full h-fit ">
         <SaveButton />
       </div>
-    </div>
+    </DefaultLayout>
   );
 };
 

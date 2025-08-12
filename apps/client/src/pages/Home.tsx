@@ -1,17 +1,17 @@
-import { NavBar, Hero, Sect_1, Dev, Footer } from "../components";
+import { Hero, Sect_1, Dev, Footer } from "../components";
+import DefaultLayout from "../layout/default";
 
 const Home = () => {
   return (
-    <div
+    <DefaultLayout
       id="scroll-container"
-      className=" w-full h-screen bg-flash_white overflow-x-hidden"
+      className=" w-full h-screen bg-flash_white overflow-x-hidden no-scrollbar"
     >
-      <NavBar />
       <Hero />
       <Sect_1 />
       <Dev />
       <Footer />
-    </div>
+    </DefaultLayout>
   );
 };
 

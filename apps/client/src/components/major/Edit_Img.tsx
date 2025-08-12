@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, EditProfileImg } from "..";
+import { useSetRecoilState } from "recoil";
+import { ModalOpen } from "../../states";
 
 const list = [
   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -14,8 +16,10 @@ const list = [
 ];
 
 const Edit_Img: React.FC = () => {
+  const setModalOpen = useSetRecoilState(ModalOpen);
+
   return (
-    <Modal resize="w-5/6 md:w-2/5 h-4/5 justify-center">
+    <Modal resize="w-5/6 md:w-2/5 h-4/5 justify-center no-scrollbar" onClose={() => setModalOpen(false)}>
       {list.map((url, index) => (
         <EditProfileImg url={url} key={index} />
       ))}

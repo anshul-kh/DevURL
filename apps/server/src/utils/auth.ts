@@ -50,7 +50,7 @@ export const signup = async (
 
     return { success: true, token: token };
   } catch (e) {
-    return { success: "false", err: "Error While Creating User" };
+    return { success: false, err: "Error While Creating User" + e };
   }
 };
 
@@ -69,7 +69,7 @@ export const login = async (
     if (res) {
       const comparision = await compare(data.password, res.password);
 
-      if (!comparision) return { success: "false", err: "no records found" };
+      if (!comparision) return { success: false, err: "no records found" };
 
       if (res.username === data.username && comparision) {
         const payload = {
@@ -84,10 +84,10 @@ export const login = async (
         return { success: true, token: token };
       }
     } else {
-      return { success: "false", err: "No Records Found" };
+      return { success: false, err: "No Records Found" };
     }
   } catch (e) {
-    return { success: "false", err: "no records found" };
+    return { success: false, err: "no records found" };
   }
 };
 

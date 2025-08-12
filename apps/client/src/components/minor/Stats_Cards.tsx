@@ -58,7 +58,7 @@ export const Empty_Stats: React.FC<{ id: number }> = ({ id }) => {
   const setShowPanel = useSetRecoilState(showWidgetPanel);
   return (
     <div
-      className="w-80 rounded-xl opacity-35 h-40 cursor-pointer flex justify-center items-center hover:scale-110 transition-all duration-200 bg-white text-black"
+      className="w-80 rounded-xl h-40 cursor-pointer flex justify-center items-center hover:scale-110 transition-all duration-200 bg-anti-flash_white-700 text-black"
       onClick={() => {
         setCurrentCard(id);
         setShowPanel(true);

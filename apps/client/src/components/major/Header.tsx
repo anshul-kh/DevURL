@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  ShareProfileIcon,
   ProfileImg,
   Dashboard_Input,
   ProfileButtonSmall,
@@ -15,7 +14,6 @@ import {
   Stats_Card,
 } from "..";
 
-import { Share } from "../../assets";
 
 import {
   addHeaderButton,
@@ -122,7 +120,6 @@ export const Dashboard_Header: React.FC = () => {
 
   return (
     <div className="px-10 md:px-20 py-2 flex w-full md:h-fit h-full justify-start items-start flex-col gap-5">
-      <ShareProfileIcon iconUrl={Share} bt={0} />
 
       {modal && <Edit_Img />}
 
